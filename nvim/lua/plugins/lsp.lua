@@ -14,18 +14,19 @@ return {
     },
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = {"lua_ls", "tsserver"}
+        ensure_installed = { "lua_ls", "ts_ls", "ast_grep" }
       })
     end
   },
   {
     "neovim/nvim-lspconfig",
     lazy = false,
+    dependencies = { { 'hrsh7th/cmp-nvim-lsp' } },
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       local lspconfig = require("lspconfig")
-      lspconfig.tsserver.setup({
+      lspconfig.ts_ls.setup({
         capabilities = capabilities
       })
       lspconfig.solargraph.setup({
@@ -37,6 +38,11 @@ return {
       lspconfig.lua_ls.setup({
         capabilities = capabilities
       })
+      lspconfig.ast_grep.setup({
+        capabilities = capabilities
+      })
+
+
 
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
@@ -45,4 +51,3 @@ return {
     end,
   },
 }
-
