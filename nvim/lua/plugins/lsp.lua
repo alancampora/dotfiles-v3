@@ -48,6 +48,27 @@ return {
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+      vim.keymap.set("n", "<leader>ge", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+      vim.keymap.set("n", "<leader>ck", vim.diagnostic.open_float, { desc = "Show diagnostics" })
+
+
+      vim.diagnostic.config({
+        virtual_text = false, -- Disable inline diagnostics
+        signs = true,         -- Show signs in the sign column
+        underline = true,     -- Underline issues in the code
+        severity_sort = true, -- Sort diagnostics by severity
+        float = {
+          source = "always",  -- Show diagnostic source in the float
+          border = "rounded", -- Rounded border for floating windows
+        },
+      })
+
+      vim.api.nvim_create_autocmd("CursorHold", {
+        callback = function()
+          vim.diagnostic.open_float(nil, { focus = false })
+        end,
+      })
+
     end,
   },
 }
