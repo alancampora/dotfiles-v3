@@ -14,7 +14,7 @@ return {
     },
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "ts_ls", "ast_grep" }
+        ensure_installed = { "lua_ls", "ts_ls", "ast_grep", "astro" }
       })
     end
   },
@@ -25,24 +25,38 @@ return {
     config = function()
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      local lspconfig = require("lspconfig")
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.solargraph.setup({
-        capabilities = capabilities
-      })
-      lspconfig.html.setup({
-        capabilities = capabilities
-      })
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities
-      })
-      lspconfig.ast_grep.setup({
-        capabilities = capabilities
+      vim.lsp.config("tsserver", {
+        capabilities = capabilities,
       })
 
+      vim.lsp.config("solargraph", {
+        capabilities = capabilities,
+      })
 
+      vim.lsp.config("html", {
+        capabilities = capabilities,
+      })
+
+      vim.lsp.config("lua_ls", {
+        capabilities = capabilities,
+      })
+
+      vim.lsp.config("ast_grep", {
+        capabilities = capabilities,
+      })
+
+      vim.lsp.config("astro", {
+        capabilities = capabilities,
+      })
+
+      vim.lsp.enable({
+        "tsserver",
+        "solargraph",
+        "html",
+        "lua_ls",
+        "ast_grep",
+        "astro",
+      })
 
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
@@ -68,7 +82,6 @@ return {
           vim.diagnostic.open_float(nil, { focus = false })
         end,
       })
-
     end,
   },
 }
